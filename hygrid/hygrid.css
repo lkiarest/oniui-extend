@@ -1,0 +1,88 @@
+@charset "UTF-8";
+
+.hy-smartgrid table {
+    width: 100%;
+    font-family: verdana,arial,sans-serif;
+    font-size:14px;
+    color:#333333;
+    border-width: 1px;
+    border-color: #ddd;
+    border-collapse: collapse;
+}
+
+.hy-smartgrid table .ckb-cell {
+    width: 25px;
+    border-right: none;
+    text-align: center;
+}
+
+.hy-smartgrid table td {
+    box-sizing: content-box;
+}
+
+.hy-smartgrid table thead > tr > th {
+    padding: 8px;
+    border-style: solid;
+    color: #fff;
+    border: 1px solid #ddd;
+    background: #28a7e7;
+    /*font-size: 14px;*/
+}
+
+.hy-smartgrid table thead tr {
+    height: 20px;
+    line-height: 20px;
+}
+
+.hy-smartgrid table tbody tr.odd {
+    background-color: #ddd;
+}
+
+.hy-smartgrid table tbody tr td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.hy-smartgrid table tbody tr td a {
+    color: #35ae01;
+    padding:0 5px 0 5px;
+}
+
+.hy-smartgrid .hygrid-pager-wrapper {
+    width: 100%;
+    background-color: #eee;
+    text-align: center;
+}
+
+.hy-smartgrid .hygrid-pager-wrapper .pager {
+    padding: 5px 0 5px 0;
+    margin: 0;
+    border: 1px solid #ddd;
+    border-top: none;
+    position: relative;
+}
+
+.hy-smartgrid .hygrid-pager-wrapper .page-nav {
+    padding: 0 2px 0 2px;
+    color: #050;
+    cursor: pointer;
+    font-size: 12px;
+    border-collapse: collapse;
+}
+
+.hy-smartgrid .page-current {
+    position: absolute;
+    top: 6px;
+    left: 10px;
+    float: left;
+    font-size: 12px;
+}
+
+.hy-smartgrid .hygrid-pager-wrapper .currentpage {
+    width: 20px;
+    height: 14px;
+    font-size: 12px;
+    border: none;
+    text-align: right;
+}
