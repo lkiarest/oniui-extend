@@ -56,7 +56,13 @@ define(["avalon",
 
             vm.$remove = function() {
                 vmodel.data.clear();
+                vmodel.data = null;
+                vmodel.columns = null;
+                vmodel.pager = null;
+                vmodel.htmlHelper = null;
                 vmodel.widgetElement.innerHTML = "";
+                vmodel.widgetElement = null;
+                vm.rootElement = null;
             };
 
             vm.render = function(newData) {
