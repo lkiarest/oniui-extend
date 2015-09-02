@@ -6,7 +6,9 @@ define([
         aaa: "aaa",
         bbb: "bbb",
         ccc: "ccc",
-        ddd: "ddd"
+        ddd: "ddd",
+        selectedRoom: "",
+        roomList: [{name: "room1", value:"0"}, {name: "room2", value:"1"}, {name: "room3", value:"2"}]
     });
 
     return avalon.controller(function($ctrl) {
