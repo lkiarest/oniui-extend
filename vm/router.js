@@ -1,13 +1,4 @@
-define(["mmRouter/mmState"], function() {
-
-    // 重写模板加载器，改为用text插件加载
-    avalon.require = require;
-
-    avalon.state.templateLoader = function(url, resolve, reject, reason) {
-        avalon.require(["text!" + url], function(tpl) {
-            resolve(avalon.templateCache[url] = tpl)
-        })
-    }
+define([], function() {
 
     avalon.state("home", {
         url: "/",
@@ -55,15 +46,15 @@ define(["mmRouter/mmState"], function() {
 
     });
 
-    var start = function() {
-        avalon.history.start({
-            basepath: "/"
-        });
+    // var start = function() {
+    avalon.history.start({
+        basepath: "/oniui-extend"
+    });
 
-        avalon.scan();
-    };
+    avalon.scan();
+    // };
 
-    return {
-        start: start
-    }
+    // return {
+    //     start: start
+    // }
 });

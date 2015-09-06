@@ -19,22 +19,30 @@ require.config({
 });
 
 require([
-    'avalon'
+    'avalon',
+    "mmRouter/mmState"
     ], function(avalon) {
 
-    require([
-        "vm/router"
-    ], function(router) {
-        avalon.ready(function() {
-            avalon.define({
-                $id: "root",
-                clickme: function() {
-                    alert("clicked");
-                }
-            });
+    avalon.require = requirejs;
 
-            router.start();
+    avalon.state.templateLoader = function(url, resolve, reject, reason) {
+        avalon.require(["text!" + url], function(tpl) {
+            resolve(avalon.templateCache[url] = tpl)
+        });
+    };
+
+    avalon.ready(function() {
+        avalon.define({
+            $id: "root",
+            clickme: function() {
+                alert("clicked");
+            }
+        });
+
+        require([
+            "vm/router"
+        ], function(router) {
+
         });
     });
-    
 });
