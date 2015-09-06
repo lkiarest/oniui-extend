@@ -27,7 +27,10 @@ require([
     ], function(router) {
         avalon.ready(function() {
             avalon.define({
-                $id: "root"
+                $id: "root",
+                clickme: function() {
+                    alert("clicked");
+                }
             });
 
             router.start();
