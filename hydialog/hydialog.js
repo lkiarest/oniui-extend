@@ -1,4 +1,4 @@
-// avalon 1.3.6
+// avalon 1.4.6
 /**
  *
  * @cnName 对话框
@@ -13,29 +13,40 @@ define(["avalon",
     "../draggable/avalon.draggable"
 ], function(avalon, template) {
 
-    var dialogNum = 0;
+    var M_TOP = 140,
+        H_HEAD = 40,
+        H_FOOT = 44;
+
+    var dialogNumber = 0;
     var maskId = "hy-dialog-mask-layer"; //id 长一点不会被覆盖
 
     var widget = avalon.ui.hydialog = function (element, data, vmodels) {
 
-        var vmodel = avalon.define(data.hydialogId, function(vm) {
+        var _innerHtml = element.innerHTML,
+            options = data.hydialogOptions;
 
-            var _innerHtml = element.innerHTML,
-                options = data.hydialogOptions;
+        var _scan = function() {
+            avalon.scan(element, [vmodel].concat(vmodels));
+        };
 
-            avalon.mix(vm, options);
-
-            vm.widgetElement = element;
-            vm.rootElement = null;
-            vm.content = _innerHtml;
-
-            var _scan = function() {
-                avalon.scan(element, [vmodel].concat(vmodels));
-            };
-
-            vm.$skipArray = ["widgetElement", "rootElement", "draggable"];
-
-            vm.$init = function() {
+        var vmodel = avalon.define({
+            $id: data.hydialogId,
+            widgetElement: element,
+            rootElement: null,
+            content: _innerHtml,
+            title: "",
+            toggle: false,
+            width: 500,
+            showFooter: true,
+            confirmName: "确定",
+            cancelName: "取消",
+            modal: true,
+            type: "confirm", // alert | confirm
+            onConfirm: avalon.noop,
+            onCancel: avalon.noop,
+            onOpen: avalon.noop,
+            onClose: avalon.noop,
+            $init: function() {
                 avalon.ready(function() {
                     element.innerHTML = template;
                     vmodel.rootElement = element.getElementsByTagName("div")[0];
@@ -45,11 +56,10 @@ define(["avalon",
                         options.onInit.call(element, vmodel, options, vmodels);
                     }
 
-                    adjustDlgLayout(rootElem);
+                    adjustDlgLayout(vmodel.rootElement);
                 });
-            };
-
-            vm.$remove = function() {
+            },
+            $remove: function() {
                 vmodel.title = "";
                 vmodel.content = "";
                 vmodel.onConfirm = avalon.noop;
@@ -57,9 +67,8 @@ define(["avalon",
                 vmodel.onOpen = avalon.noop;
                 vmodel.onClose = avalon.noop;
                 vmodel.widgetElement.innerHTML = "";
-            };
-
-            vm.draggable = {
+            },
+            draggable: {
                 handle: function(e) {
                     var el = e.target;
                     do {
@@ -68,9 +77,8 @@ define(["avalon",
                         }
                     } while(el = el.parentNode);
                 }
-            };
-
-            vm.confirm = function(e) {
+            },
+            confirm: function(e) {
                 if (vmodel.onConfirm && (typeof vmodel.onConfirm === "function")) {
                     if (vmodel.onConfirm.call(e.target, e, vmodel) === false) {
                         return;
@@ -78,9 +86,8 @@ define(["avalon",
                 }
 
                 vmodel.hide();
-            };
-
-            vm.cancel = function(e) {
+            },
+            cancel: function(e) {
                 if (vmodel.onCancel && (typeof vmodel.onCancel === "function")) {
                     if (vmodel.onCancel.call(e.target, e, vmodel) === false) {
                         return;
@@ -88,18 +95,16 @@ define(["avalon",
                 }
 
                 vmodel.hide();
-            };
-
-            vm.show = function() {
+            },
+            show: function() {
                 if (vmodel.onOpen &&  (typeof vmodel.onOpen === "function")) {
                     vmodel.onOpen.call(element, vmodel);
                 }
 
+                vmodel.toggle = true;
                 adjustDlgLayout(vmodel.rootElement);
 
-                vmodel.toggle = true;
-
-                dialogNum ++;
+                dialogNumber ++;
 
                 var maxZ = getMaxZIndex();
                 if (vmodel.modal) {
@@ -107,9 +112,8 @@ define(["avalon",
                 }
 
                 vmodel.rootElement.style.zIndex = maxZ + 2;
-            };
-
-            vm.hide = function() {
+            },
+            hide: function() {
                 if (vmodel.toggle === false) {
                     return;
                 }
@@ -118,8 +122,13 @@ define(["avalon",
                     vmodel.onClose.call(element, vmodel);
                 }
 
-                dialogNum --;
-                if (dialogNum === 0) {
+                dialogNumber --;
+
+                if (dialogNumber < 0) {
+                    dialogNumber = 0;
+                }
+
+                if (dialogNumber === 0) {
                     hideMask();
                 } else {
                     var maxZ = getMaxZIndex();
@@ -128,64 +137,48 @@ define(["avalon",
 
                 vmodel.rootElement.style.zIndex = 0;
                 vmodel.toggle = false;
-            };
-
-            vm.setContent = function(content) {
+            },
+            setContent: function(content) {
                 vmodel.content = content;
-            };
-
-            vm.setTitle = function(title) {
+            },
+            setTitle: function(title) {
                 vmodel.title = title;
-            };
-
-            vm.showConfirm = {
+            },
+            showConfirm: {
                 get: function() {
                     return this.type === "confirm";
                 }
-            };
-
-            vm.$watch("toggle", function(val) {
-                if (val) {
-                    vmodel.show();
-                }
-            });
-
-            vm.$remove = function() {
-                // dialogNum--
-                element.innerHTML = "";
-                
-            };
+            }
         });
+
+        avalon.mix(vmodel, options);
+        vmodel.$skipArray = ["widgetElement", "rootElement", "draggable"];
 
         return vmodel;
     };
 
-    widget.defaults = {
-        title: "",
-        content: "",
-        toggle: false,
-        width: 500,
-        confirmName: "确定",
-        cancelName: "取消",
-        modal: true,
-        type: "confirm", // alert | confirm
-        onConfirm: avalon.noop,
-        onCancel: avalon.noop,
-        onOpen: avalon.noop,
-        onClose: avalon.noop
-    };
-
     var adjustDlgLayout = function(elem) {
-        var width = elem.offsetWidth,
-            // height = elem.offsetHeight,
-            fullWidth = window.screen.availWidth; //document.body.clientWidth,
-            // fullHeight = window.screen.availHeight; //document.body.clientHeight;
-
+        var width = parseInt(elem.style.width),
+            height = elem.offsetHeight,
+            fullWidth = window.screen.availWidth, //document.body.clientWidth,
+            fullHeight = window.screen.availHeight;
         var offsetWidth = fullWidth - width > 0 ? fullWidth - width : 0;
         // var offsetHeight = fullHeight - height > 0 ? fullHeight - height : 0;
 
         elem.style.left = offsetWidth / 2 + "px";
-        // elem.style.top = offsetHeight / 2 + "px";
+        if (height > fullHeight - M_TOP) {
+            // set content height
+            // 兼容IE8/IE8-
+            var els = elem.getElementsByTagName("div");
+            for (var i in els) {
+                if (els[i].className === "content") {
+                    els[i].style.height = (fullHeight - M_TOP - H_HEAD - H_FOOT) + "px";
+                    break;
+                }
+            }
+        }
+
+        elem.style.top = M_TOP + "px";
     };
 
     var showMask = function(zindex) {
