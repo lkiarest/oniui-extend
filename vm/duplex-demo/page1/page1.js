@@ -6,7 +6,6 @@ define([
         o: {},
         ccc: "",
         ddd: "",
-        selectedRoom: "",
         roomList: []
     });
 
@@ -20,11 +19,15 @@ define([
             vm.roomList = [{name: "room1", value:"0"}, {name: "room2", value:"1"}, {name: "room3", value:"2"}];
             vm.o = {
                 aaa: "aaa",
-                bbb: "bbb"
+                bbb: "bbb",
+                selectedRoom: ""
             };
             vm.ccc = "ccc";
             vm.ddd = "ddd";
-            vm.selectedRoom = "";
+            
+            vm.o.$watch("selectedRoom", function(newVal) {
+                alert("chnage to :" + newVal);
+            })
         };
         // 对应的视图销毁前
         $ctrl.$onBeforeUnload = function() {
