@@ -20,7 +20,7 @@ define([
             vm.o = {
                 aaa: "aaa",
                 bbb: "bbb",
-                selectedRoom: ""
+                selectedRoom: "0"
             };
             vm.ccc = "ccc";
             vm.ddd = "ddd";
