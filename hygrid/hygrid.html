@@ -14,23 +14,28 @@
                 <td class="ckb-cell" ms-visible="selectable">
                     <input type="checkbox" ms-duplex-checked="row.selected" data-duplex-changed="checkOne"></input>
                 </td>
-                <td ms-repeat-item="row.data" ms-css-text-align="item.align" ms-css-width="item.width">{{item.value | html}}</td>
+                <td ms-repeat-item="row.data" ms-css-text-align="item.align" ms-css-width="item.width">
+                    <div class="td-value" ms-css-width="item.width" ms-attr-title="item.value">{{item.value | html}}</div>
+                </td>
             </tr>
         </tbody>
     </table>
     <div class="hygrid-pager-wrapper"  ms-visible="pageable">
+        <div class="page-info">
+            <span>共 {{pager.totalPages}} 页 {{pager.totalItems}} 条记录，每页显示 {{pager.perPages}} 条，当前显示第 {{pager.currentPage}} 页{{pageScope()}}</span>
+        </div>
         <div class="pager">
-            <span class="page-current">
-                <span>当前页&nbsp;</span>
-                <input class="currentpage" ms-duplex="currentPage"></input>
-                <span>/</span>
-                <span>{{pager.totalPages}}</span>
-                <span class="page-nav" ms-on-click="jumpTo">跳转</span>
-            </span>
-            <span class="page-nav" ms-on-click="jump(1)">首页</span>
+            <span class="page-nav" ms-on-click="jump(1)">第一页</span>
             <span class="page-nav" ms-on-click="prevPage">上一页</span>
             <span class="page-nav" ms-on-click="nextPage">下一页</span>
-            <span class="page-nav" ms-on-click="lastPage">尾页</span>
+            <span class="page-nav" ms-on-click="lastPage">最后一页</span>
+            <span class="page-nav page-current">
+                <input class="currentpage" ms-duplex="pager.inputPage"></input>
+                <span>/</span>
+                <span>{{pager.totalPages}}</span>
+            </span>
+            <span class="page-nav jump" ms-on-click="jumpTo">跳转</span>
+            <span ms-if="showExport" class="page-nav export" ms-on-click="onExportClicked">导出</span>
         </div>
     </div>
 </div>
