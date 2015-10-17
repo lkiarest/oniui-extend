@@ -36,7 +36,7 @@ define(["avalon",
             content: _innerHtml,
             title: "",
             toggle: false,
-            width: 500,
+            width: 500, // 默认宽度为500
             showFooter: true,
             confirmName: "确定",
             cancelName: "取消",
@@ -46,6 +46,7 @@ define(["avalon",
             onCancel: avalon.noop,
             onOpen: avalon.noop,
             onClose: avalon.noop,
+            onInit: avalon.noop,
             $init: function() {
                 avalon.ready(function() {
                     element.innerHTML = template;
@@ -159,26 +160,29 @@ define(["avalon",
 
     var adjustDlgLayout = function(elem) {
         var width = parseInt(elem.style.width),
-            height = elem.offsetHeight,
-            fullWidth = window.screen.availWidth, //document.body.clientWidth,
-            fullHeight = window.screen.availHeight;
+            height = elem.offsetHeight
+            win = window,
+            fullWidth = document.documentElement.clientWidth || document.body.clientWidth, //document.body.clientWidth,
+            fullHeight = document.documentElement.clientHeight || document.body.clientHeight;
         var offsetWidth = fullWidth - width > 0 ? fullWidth - width : 0;
-        // var offsetHeight = fullHeight - height > 0 ? fullHeight - height : 0;
+        var offsetHeight = fullHeight - height > 0 ? fullHeight - height : 0;
 
         elem.style.left = offsetWidth / 2 + "px";
-        if (height > fullHeight - M_TOP) {
+        elem.style.top = offsetHeight / 2 + "px";
+
+        if (height > fullHeight) {
             // set content height
             // 兼容IE8/IE8-
             var els = elem.getElementsByTagName("div");
             for (var i in els) {
                 if (els[i].className === "content") {
-                    els[i].style.height = (fullHeight - M_TOP - H_HEAD - H_FOOT) + "px";
+                    els[i].style.height = (fullHeight - H_HEAD - H_FOOT) + "px";
                     break;
                 }
             }
         }
 
-        elem.style.top = M_TOP + "px";
+        // elem.style.top = M_TOP + "px";
     };
 
     var showMask = function(zindex) {
