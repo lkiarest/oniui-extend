@@ -12,7 +12,7 @@
         <title>对话框</title>
         <meta http-equiv="content-type" content="text/html;charset=utf-8" />
         <meta http-equiv="x-ua-compatible" content="ie=edge" />
-        <link type="text/css" rel="stylesheet" href="http://192.168.1.136/vendor/bootstrap/dist/css/bootstrap.min.css"/>
+        <link type="text/css" rel="stylesheet" href="../vendor/bootstrap/dist/css/bootstrap.min.css"/>
     </head>
     <body>
         <div class="demo" ms-controller="demo">
@@ -24,24 +24,25 @@
                 <p>{{message}} - {{name}}</p>
             </div>
         </div>
-        <script src="http://192.168.1.136/vendor/requirejs/require.js"></script>
-        <script src="http://192.168.1.136/vendor/avalon/dist/avalon.shim.js"></script>
-        <script src="http://192.168.2.132/vendor/avalon.oniui-dev/oniui.min.js"></script>
+        <script src="../vendor/requirejs/require.js"></script>
+        <script src="../vendor/avalon/dist/avalon.shim.js"></script>
+        <script src="../vendor/avalon.oniui-dev/oniui.min.js"></script> <!--官方打包压缩的oniui库-->
         <script>
             require(["hydialog/hydialog"], function() {
                 var _dlgVm = null;
 
                 avalon.define({
                     $id: "demo",
+                    width: 600, // 指定宽度
                     message: "这是一个测试对话框",
                     showAlert: function(){
                         _dlgVm.type="alert";
-                        _dlgVm.showFooter = true; // 默认值为true
+                        _dlgVm.showFooter = true; // 是否显示底部的按钮区域，默认值为true
                         _dlgVm.show();
                     },
                     showNoButton: function() {
                         _dlgVm.showFooter = false;
-                        _dlgVm.title = "不包含默认按钮";
+                        _dlgVm.title = "不包含默认按钮"; // 对话框标题
                         _dlgVm.show();
                     },
                     showConfirm: function() {
