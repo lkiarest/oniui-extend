@@ -20,12 +20,20 @@
     box-sizing: content-box;
 }
 
+.hy-smartgrid table td .td-value {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .hy-smartgrid table thead > tr > th {
     padding: 8px;
     border-style: solid;
-    color: #fff;
+    color: #000;
     border: 1px solid #ddd;
-    background: #28a7e7;
+    background-color: #ebebeb;
+    text-align: center;
     /*font-size: 14px;*/
 }
 
@@ -34,8 +42,12 @@
     line-height: 20px;
 }
 
+.hy-smartgrid table tbody tr {
+    background-color: #fff;
+}
+
 .hy-smartgrid table tbody tr.odd {
-    background-color: #ddd;
+    background-color: #f5f5f5;
 }
 
 .hy-smartgrid table tbody tr td {
@@ -45,44 +57,61 @@
 }
 
 .hy-smartgrid table tbody tr td a {
-    color: #35ae01;
+    color: #4e8cd9;
     padding:0 5px 0 5px;
 }
 
 .hy-smartgrid .hygrid-pager-wrapper {
     width: 100%;
-    background-color: #eee;
+    /*margin-top: 5px;*/
     text-align: center;
+    overflow: hidden;
+}
+
+.hy-smartgrid .hygrid-pager-wrapper .page-info {
+    font-size: 12px;
+    line-height: 34px;
+    display: inline-block;
+    float: left;
 }
 
 .hy-smartgrid .hygrid-pager-wrapper .pager {
     padding: 5px 0 5px 0;
-    margin: 0;
-    border: 1px solid #ddd;
+    margin: 5px 0 0 0;
     border-top: none;
     position: relative;
+    float: right;
 }
 
 .hy-smartgrid .hygrid-pager-wrapper .page-nav {
-    padding: 0 2px 0 2px;
-    color: #050;
+    padding: 5px 10px 5px 10px;
+    color: #333;
     cursor: pointer;
     font-size: 12px;
+    background-color: #fff;
+    border: 1px solid #eee;
     border-collapse: collapse;
 }
 
-.hy-smartgrid .page-current {
-    position: absolute;
-    top: 6px;
-    left: 10px;
-    float: left;
+.hy-smartgrid .hygrid-pager-wrapper .page-nav:hover {
+    background-color: #f5f5f5;
+}
+
+.hy-smartgrid .hygrid-pager-wrapper .page-nav.page-current {
+    padding-right: 0px;
     font-size: 12px;
+    background-color: transparent;
+    border: none;
 }
 
 .hy-smartgrid .hygrid-pager-wrapper .currentpage {
-    width: 20px;
-    height: 14px;
+    width: 30px;
+    height: 20px;
     font-size: 12px;
-    border: none;
-    text-align: right;
+    border: 1px solid #ccc;
+    text-align: center;
+}
+
+.hy-smartgrid .hygrid-pager-wrapper .export {
+    margin-left: 10px;
 }
